@@ -1,7 +1,9 @@
-"""
-Day 1: Simple hashing placeholder (NOT secure).
-We will replace this with bcrypt in Day 2.
-"""
+import bcrypt
 
-def simple_hash(password: str) -> str:
-    return "hashed_" + password
+def hash_password(password: str) -> str:
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode(), salt)
+    return hashed.decode()
+
+def verify_password(password: str, hashed: str) -> bool:
+    return bcrypt.checkpw(password.encode(), hashed.encode())

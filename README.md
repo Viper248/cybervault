@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 # cybervault
 Pre-College Cyber Vault Password Manager Project
 =======
 # CyberVault Project — Day 1
-
 ## Goal
 Understand project structure and run a basic Flask authentication simulation.
 
