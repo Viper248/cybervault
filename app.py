@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, url_for
 from auth.login import login_user
 from auth.register import register_user
+from utils.logger import log_event
 
 app = Flask(__name__)
 
@@ -57,9 +58,16 @@ def login():
         if attempts >= MAX_LOGIN_ATTEMPTS:
             lockouts[username] = datetime.utcnow() + LOCKOUT_PERIOD
             login_attempts.pop(username, None)
+            remaining = 0
+            log_event(
+                f"Login failed for user: {username}. Account locked after {attempts} failed attempts. Remaining attempts before lockout: {remaining}"
+            )
             error = f"Too many failed attempts. Account locked for {int(LOCKOUT_PERIOD.total_seconds() // 60)} minutes."
         else:
             remaining = MAX_LOGIN_ATTEMPTS - attempts
+            log_event(
+                f"Login failed for user: {username}. Remaining attempts before lockout: {remaining}"
+            )
             error = f"Login failed. Invalid credentials. {remaining} attempt(s) remaining."
 
     return render_template("login.html", error=error, username=username)
