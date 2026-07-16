@@ -6,7 +6,7 @@ def login_user(username, password):
     user = get_user(username)
 
     if not user:
-        log_event(f"Login failed for user: {username}")
+        #log_event(f"Login failed for user: {username}")
         return False
     else:
         log_event(f"Login successful for user: {username}")

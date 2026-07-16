@@ -1,7 +1,7 @@
 import bcrypt
 
 
-password = b"hunter2" #b s hows that password is stored in bytes
+password = b"hunter2" #b shows that password is stored in bytes
 #make a salt
 salt = bcrypt.gensalt()
 hashed = bcrypt.hashpw(password, salt)
