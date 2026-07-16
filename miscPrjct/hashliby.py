@@ -3,7 +3,7 @@ import hashlib
 
 password = input("Enter password sonion: ") 
 salt = "xyz123"
-#salt = "" #for no salt uncomment 
+salt = "" #for no salt uncomment 
 combined_password = password + salt
 print("Original password: ", password)
 print("Combined password: ", combined_password)

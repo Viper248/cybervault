@@ -72,6 +72,14 @@
             margin-top: 10px;
             font-weight: 600;
         }
+        .error-message {
+            color: #b22f2f;
+            background: #fdeaea;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -81,15 +89,44 @@
     <div class="page-box">
         <h1>CyberVault Registration</h1>
 
-        <form action="/register" method="POST">
+        {% if error %}
+            <div class="error-message">{{ error }}</div>
+        {% endif %}
+
+        <form id="registerForm" action="/register" method="POST">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" value="{{ username or '' }}" required minlength="3">
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required minlength="6">
 
             <button type="submit">Register</button>
         </form>
+
+        <script>
+            document.getElementById('registerForm').addEventListener('submit', function(event) {
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!username || !password) {
+                    alert('Please fill out all fields before registering.');
+                    event.preventDefault();
+                    return false;
+                }
+
+                if (username.length < 3) {
+                    alert('Username must be at least 3 characters.');
+                    event.preventDefault();
+                    return false;
+                }
+
+                if (password.length < 6) {
+                    alert('Password must be at least 6 characters.');
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        </script>
 
         <div class="links">
             <a href="/login">Already have an account? Login here.</a>

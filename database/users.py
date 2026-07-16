@@ -5,12 +5,14 @@ users = {}
 def get_user(username):
     return users.get(username)
 
-def add_user(username, hashed_password):
+def add_user(username, hashed_password, otp):
     if username in users:
-        return False  
+        return False
+
     users[username] = {
-        "username": username, 
-        "password": hashed_password
+        "username": username,
+        "password": hashed_password,
+        "otp": otp
     }
     log_event(f"User added: {username}")
     return True
