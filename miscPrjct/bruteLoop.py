@@ -15,6 +15,7 @@ def brute_force(target_password, max_length=4):
     print("Password not found.")
     return None, attempts
 
+pswrd = input("Enter a target password(max 4 characters): ")
 pswrd = input("Enter a target password: ")
 target = pswrd
 brute_force(target)

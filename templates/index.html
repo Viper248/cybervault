@@ -1,14 +1,49 @@
-## `templates/index.html`
 
-```html
 <!DOCTYPE html>
 <html>
 <head>
     <title>CyberVault</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #e9f8f0;
+            font-family: Arial, sans-serif;
+        }
+        .top-left-home {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #1f6d4f;
+        }
+        .page-box {
+            width: 360px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(46, 182, 113, 0.18);
+            padding: 32px;
+            text-align: center;
+        }
+        .page-box a {
+            display: inline-block;
+            margin: 12px 8px 0;
+            color: #1f6d4f;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to CyberVault</h1>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
+    <a class="top-left-home" href="/">start over</a>
+    <div class="page-box">
+        <h1>Welcome to CyberVault</h1>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+    </div>
 </body>
 </html>
