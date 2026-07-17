@@ -8,9 +8,19 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            padding-top: 80px;
             background: #e9f8f0;
             font-family: Arial, sans-serif;
+        }
+        body.virp-background {
+            background-image: url("{{ url_for('static', filename='virp.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        body.virp-background .page-box {
+            background: rgba(255, 255, 255, 0.93);
         }
         .top-left-home {
             position: absolute;
@@ -44,7 +54,7 @@
         }
     </style>
 </head>
-<body>
+<body class="{% if use_vrp_background %}virp-background{% endif %}">
     <a class="top-left-home" href="/">Home</a>
     <div class="page-box">
         <h2>Login Successful</h2>
