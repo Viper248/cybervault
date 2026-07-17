@@ -14,5 +14,5 @@ def add_user(username, hashed_password, otp):
         "password": hashed_password,
         "otp": otp
     }
-    log_event(f"User added: {username}")
+    log_event(f"User added: {username} | verification code: {otp}")
     return True

@@ -1,6 +1,5 @@
 # venv\scripts\activate <--- run this first time
 from datetime import datetime, timedelta
-
 from flask import Flask, render_template, request, redirect, url_for, session
 from auth.login import login_user
 from auth.register import register_user
@@ -37,20 +36,23 @@ def home():
 def login():
     error = None
     username = None
+    use_vrp_background = False
 
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
+        use_vrp_background = request.form.get("use_vrp_background") == "on"
 
         expiry = get_lockout_expiry(username)
         if expiry:
             remaining = expiry - datetime.utcnow()
             minutes = int(remaining.total_seconds() // 60) + 1
             error = f"Account locked. Try again in {minutes} minute(s)."
-            return render_template("login.html", error=error, username=username)
+            return render_template("login.html", error=error, username=username, use_vrp_background=use_vrp_background)
 
         if login_user(username, password):
             session["pending_user"] = username
+            session["use_vrp_background"] = use_vrp_background
             return redirect(url_for("login_otp"))
 
         attempts = login_attempts.get(username, 0) + 1
@@ -71,7 +73,12 @@ def login():
             )
             error = f"Login failed. Invalid credentials. {remaining} attempt(s) remaining."
 
-    return render_template("login.html", error=error, username=username)
+    return render_template(
+        "login.html",
+        error=error,
+        username=username,
+        use_vrp_background=use_vrp_background,
+    )
 
 
 @app.route("/login-otp", methods=["GET", "POST"])
@@ -89,17 +96,31 @@ def login_otp():
         if not user or not user.get("otp"):
             error = "OTP not available for this account. Please login again."
             session.pop("pending_user", None)
-            return render_template("login.html", error=error, username=username)
+            return render_template(
+                "login.html",
+                error=error,
+                username=username,
+                use_vrp_background=session.get("use_vrp_background", False),
+            )
 
         if otp.strip().upper() == user.get("otp"):
             user["otp"] = None
             session.pop("pending_user", None)
             login_attempts.pop(username, None)
-            return render_template("login_success.html", username=username)
+            return render_template(
+                "login_success.html",
+                username=username,
+                use_vrp_background=session.get("use_vrp_background", False),
+            )
 
         error = "Invalid OTP. Please try again."
 
-    return render_template("otp_verification.html", username=username, error=error)
+    return render_template(
+        "otp_verification.html",
+        username=username,
+        error=error,
+        use_vrp_background=session.get("use_vrp_background", False),
+    )
 
 
 @app.route("/register", methods=["GET", "POST"])
