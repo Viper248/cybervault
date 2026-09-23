@@ -113,7 +113,7 @@ def login_otp():
                 use_vrp_background=session.get("use_vrp_background", False),
             )
 
-        error = "Invalid OTP. Please try again."
+        error = "Invalid OTP. Please contact support    ."
 
     return render_template(
         "otp_verification.html",
